@@ -1,44 +1,11 @@
 stages:
-  - build
-  - test               # Add a `test` stage for the test jobs
   - deploy
 
-build-job:
-  stage: build
-  image: node
-  script:
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - "build/"
-
-lint-markdown:
-  stage: test
-  image: node
-  dependencies: []     # Don't fetch any artifacts
-  script:
-    - npm install markdownlint-cli2 --global           # Install markdownlint into the container
-    - markdownlint-cli2 -v                             # Verify the version, useful for troubleshooting
-    - markdownlint-cli2 "blog/**/*.md" "docs/**/*.md"  # Lint all markdown files in blog/ and docs/
-  allow_failure: true  # This job fails right now, but don't let it stop the pipeline.
-
-test-html:
-  stage: test
-  image: node
-  dependencies:
-    - build-job        # Only fetch artifacts from `build-job`
-  script:
-    - npm install --save-dev htmlhint                  # Install HTMLHint into the container
-    - npx htmlhint --version                           # Verify the version, useful for troubleshooting
-    - npx htmlhint build/                              # Lint all markdown files in blog/ and docs/
-
-pages:
+deploy_to_AEM:
   stage: deploy
-  dependencies:
-    - build-job        # Only fetch artifacts from `build-job`
   script:
-    - mv build/ public/
-  artifacts:
-    paths:
-      - "public/"
+    - echo "Deploying to AEM Cloud"
+    - # Agrega comandos para sincronizar tu código con AEM Cloud aquí
+
+  only:
+    - main # Este job solo se ejecutará cuando se haga un push a la rama 'master'
