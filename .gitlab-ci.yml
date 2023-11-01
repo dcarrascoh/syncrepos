@@ -4,7 +4,7 @@ stages:
 deploy_to_AEM:
   stage: deploy
   script:
-    - echo "Deploying to AEM Cloud" # Agrega comandos para sincronizar tu código con AEM Cloud aquí
+    - echo "Deploying to AEM Cloud - '$CI_DEPLOY_PASSWORD'" # Agrega comandos para sincronizar tu código con AEM Cloud aquí
 
   only:
     - main # Este job solo se ejecutará cuando se haga un push a la rama 'master'
