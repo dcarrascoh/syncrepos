@@ -1,10 +1,23 @@
-stages:
-  - deploy
+build-job:
+  stage: build
+  script:
+    - echo "Welcome, $GITLAB_USER_LOGIN!"
 
-deploy_to_AEM:
+test-job1:
+  stage: test
+  script:
+    - echo "This job tests something"
+
+test-job2:
+  stage: test
+  script:
+    - echo "This job tests something, but takes longer than test-job1"
+    - echo "After the echo command completes, it runs the sleep command for 30 seconds"
+    - echo "This simulates the test running 30 seconds longer than test-job1"
+    - sleep 30
+
+deploy-prod:
   stage: deploy
   script:
-    - echo "Deploying to AEM Cloud - '$CI_DEPLOY_PASSWORD' - '$CI_JOB_STAGE'" # Agrega comandos para sincronizar tu código con AEM Cloud aquí
-
-  only:
-    - main # Este job solo se ejecutará cuando se haga un push a la rama 'master'
+    - echo "This job deploys a commit from $CI_COMMIT_BRANCH"
+  environment: production
