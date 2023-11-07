@@ -1,23 +1,11 @@
-build-job:
-  stage: build
+sync-with-github:
+  before_script:
+    - git config user.name "${GITLAB_USER_NAME}"
+    - git config user.email "${GITLAB_USER_EMAIL}"
   script:
-    - echo "Welcome, $GITLAB_USER_LOGIN!"
-
-test-job1:
-  stage: test
-  script:
-    - echo "This job tests something"
-
-test-job2:
-  stage: test
-  script:
-    - echo "This job tests something, but takes longer than test-job1"
-    - echo "After the echo command completes, it runs the sleep command for 30 seconds"
-    - echo "This simulates the test running 30 seconds longer than test-job1"
-    - sleep 30
-
-deploy-prod:
-  stage: deploy
-  script:
-    - echo "This job deploys a commit from $CI_COMMIT_BRANCH"
-  environment: production
+    - git remote add github https://github.com/dcarrascoh/syncrepos.git
+    - git checkout main
+    - git pull origin main
+    - git pull github master
+    - git status
+    - git push https://root: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@github.com/dcarrascoh/syncrepos.git HEAD:main
