@@ -1,6 +1,9 @@
-sync-with-github:
-  before_script:
-    - git config user.name "${GITLAB_USER_NAME}"
-    - git config user.email "${GITLAB_USER_EMAIL}"
+stages:
+  - push_to_external_repo
+
+push_to_external_repo:
+  stage: push_to_external_repo
   script:
-    - git remote -v
+    - git remote add external_repo https://dcarrascoh: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github.com/dcarrascoh/syncrepos.git
+    - git checkout main
+    - git push external_repo main:main
