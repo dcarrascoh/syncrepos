@@ -4,8 +4,9 @@ stages:
 push_to_external_repo:
   stage: push_to_external_repo
   script:
-    - git remote add external_repo https://dcarrascoh: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github.com/dcarrascoh/syncrepos.git
-    - git fetch
+    - git remote add upstream https://dcarrascoh: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github.com/dcarrascoh/syncrepos.git
     - git remote -v
-    - git checkout origin/main
-    - git push external_repo main:main
+    - git fetch upstream
+    - git checkout main
+    - git merge upstream/main
+    - git push
