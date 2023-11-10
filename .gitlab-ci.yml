@@ -1,13 +1,9 @@
 stages:
-  - push_to_external_repo
+  - sync
 
-push_to_external_repo:
-  stage: push_to_external_repo
+sync_to_external_repo:
+  stage: sync
   script:
     - git remote add upstream https://dcarrascoh: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@github.com/dcarrascoh/syncrepos.git
     - git remote -v
-    - git fetch upstream
-    - git checkout --track origin/main
-    - git pull origin main --allow-unrelated-histories
-    - git merge upstream/main
-    - git push upstream main
+    - git push -u upstream main
