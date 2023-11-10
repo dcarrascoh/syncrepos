@@ -1,13 +1,9 @@
 stages:
   - sync
 
-sync_to_external_repo:
+sync:
   stage: sync
   script:
     - git remote add upstream https://dcarrascoh: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@github.com/dcarrascoh/syncrepos.git
     - git remote -v
-    - git fetch upstream
-    - git checkout -b main upstream/main
-    - git push origin main:main
-  only:
-    - main # Puedes especificar la rama que quieres sincronizar aquí
+    - git push upstream main
