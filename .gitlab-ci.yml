@@ -8,5 +8,6 @@ push_to_external_repo:
     - git remote -v
     - git fetch upstream
     - git checkout --track origin/main
+    - git pull origin master --allow-unrelated-histories
     - git merge upstream/main
-    - git push
+    - git push upstream main
