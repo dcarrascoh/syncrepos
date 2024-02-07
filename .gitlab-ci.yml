@@ -1,9 +1,31 @@
-stages:
-  - sync
+image: maven:latest
 
-sync:
-  stage: sync
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+push-aem-job:       
+  stage: deploy
   script:
-    - git remote add upstream https://dcarrascoh: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@github.com/dcarrascoh/syncrepos.git
-    - git remote -v
-    - git push upstream main
+    - echo "Sending to remote repository"
+    - rm -rf target
+    - mkdir target
+    - mkdir target/sub
+    - cd target/sub
+    - git clone https://gitlab-ci-token:$CI_BUILD_TOKEN@gitlab.com/telecom-argentina/cio/content/cms.git .
+    - git checkout $CI_COMMIT_BRANCH
+    - git log --format="%an:%s" -n 1 > ../commit.txt
+    - rm -rf .git
+    - cd ..
+    - git config --global credential.helper cache
+    - git config --global user.email ${USER_EMAIL}
+    - git config --global user.name ${USER_NAME}
+    - git clone -b $CI_COMMIT_BRANCH ${MAIN_REPOSITORY} main
+    - rm -rf main/${PROJECT_DIR}
+    - mv -v sub main/${PROJECT_DIR}
+    - git -C main add --all ${PROJECT_DIR}
+    - git -C main commit -F ../commit.txt
+    - git -C main push
+  only:
+    - main
